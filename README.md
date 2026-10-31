@@ -3,7 +3,7 @@
 [![Rust](https://img.shields.io/badge/Rust-2021%20Edition-DEA584.svg?style=flat-square&logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Linux Kernel](https://img.shields.io/badge/Linux-Kernel%20%2F%20VFS%20%2F%20IOCTL-FCC624.svg?style=flat-square&logo=linux&logoColor=black)](https://kernel.org/)
 [![SocketCAN](https://img.shields.io/badge/SocketCAN-AF__CAN%20%2F%20J1939-blue.svg?style=flat-square)](https://github.com/patrick-isles/can-bus-rs)
-[![Prometheus](https://img.shields.io/badge/Prometheus-Ports%209106--9111-E6522C.svg?style=flat-square&logo=prometheus&logoColor=white)](https://prometheus.io/)
+[![Prometheus](https://img.shields.io/badge/Prometheus-Ports%209106--9112-E6522C.svg?style=flat-square&logo=prometheus&logoColor=white)](https://prometheus.io/)
 [![Location](https://img.shields.io/badge/Location-Portland%2C%20OR-lightgrey.svg?style=flat-square)]()
 [![Resume](https://img.shields.io/badge/Resume-PDF%20Download-red.svg?style=flat-square)](./patrick_isles_systems_resume.pdf)
 
@@ -16,9 +16,9 @@
 ========================================================================================
  [SYSTEMS OPERATING MATRIX] :: PATRICK ISLES (PORTLAND, OR)
 ========================================================================================
- HOST SUBSYSTEMS   : Linux x86_64 | VFS Page Cache | Raw NVMe IOCTL | SysV IPC | AF_CAN | POSIX RT
+ HOST SUBSYSTEMS   : Linux x86_64 | VFS Page Cache | Raw NVMe IOCTL | SysV IPC | AF_CAN | POSIX RT | PROCHOT
  EXECUTION ENGINE  : Pure Rust (Zero Heap Allocations in Ingestion Loops, LTO, Strip)
- TELEMETRY MESH    : 6 Prometheus Exporters (:9106 - :9111) | Real-time ANSI Dashboards
+ TELEMETRY MESH    : 7 Prometheus Exporters (:9106 - :9112) | Real-time ANSI Dashboards
  ACADEMIC RIGOR    : PSU B.A. (Philosophy/Formal Logic, Heidelberg) + PCC Calculus (4.0)
 ========================================================================================
 ```
@@ -31,6 +31,7 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 
 | Daemon / Repository | Architecture & Protocol | Key Diagnostic / Benchmark | Telemetry | Status |
 |---|---|---|---|---|
+| **[`silicon-throttle-rs`](https://github.com/patrick-isles/silicon-throttle-rs)** | CPU Frequency Scaling, PROCHOT Hardware Clamping, ACPI Cooling Devices | Exposes the "Phantom Slowdown"; tracks compute penalty factors ($f_{\text{max}} / f_{\text{cur}}$) & PCIe link throttling | **Port :9112** | 🟢 Live |
 | **[`rt-sched-sentinel`](https://github.com/patrick-isles/rt-sched-sentinel)** | Linux Real-Time POSIX (`SCHED_FIFO`, `SCHED_RR`), `/proc/[pid]/schedstat` | Audits Mars Pathfinder priority inversion hazards; tracks nanosecond runqueue latency (`run_delay`) | **Port :9111** | 🟢 Live |
 | **[`dirty-throttle-sentinel`](https://github.com/patrick-isles/dirty-throttle-sentinel)** | Linux VFS Page Cache, `/proc/vmstat` writeback queues, sysctl tunables | Preempts synchronous `TASK_UNINTERRUPTIBLE` (`D` state) process freezes before storage chokes; zero-alloc loop | **Port :9110** | 🟢 Live |
 | **[`kmem-drain-rs`](https://github.com/patrick-isles/kmem-drain-rs)** | System V `/proc/sysvipc/shm`, `shmctl(IPC_RMID)`, kernel `/proc/slabinfo` | Scans and safely reaps dead-PID unattached zombie memory; audits `SUnreclaim` kernel slab leaks | **Port :9109** | 🟢 Live |
