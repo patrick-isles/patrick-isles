@@ -43,6 +43,7 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 | **[`telemetry-rs`](https://github.com/patrick-isles/telemetry-rs)** | Embedded UART (115200 8N1), CRC-16-CCITT, Digital Signal Processing (DSP) core | **50.79M pkts/sec / 19.69 ns latency**; computes True RMS ($V_{\text{RMS}}$), AC ripple, dynamic impedance | **Port :9106** | 🟢 Live |
 | **[`rhel-idm-engine`](https://github.com/patrick-isles/rhel-idm-engine)** | Enterprise Identity Federation: Kerberos V5 (AES-256), OpenLDAP RFC 2307, SSSD | Local LDB dynamic caching for partition resilience, Host-Based Access Control (HBAC), SELinux MLS | PAM/NSS | 🟢 Reference |
 | **[`g14-linux-stability-guide`](https://github.com/patrick-isles/g14-linux-stability-guide)** | Hardware Silicon Post-Mortem: AMD Zen 3+ (Ryzen 9 6900HS / Radeon RX 6700S) | Root-cause analysis resolving C6 voltage droop, PCIe ASPM, and NVMe APST collisions (`fix-g14.sh`) | Kernel Sysfs | 🟢 Production |
+| **[`filibuster-engine`](https://github.com/patrick-isles/filibuster-engine)** | Bare-Metal x86_64, `mlock` Physical Partitioning, `_mm_clflush`, Real-Time `SCHED_FIFO` 99 | Repudiates OS scheduling, page swapping, and virtual memory; executes millions of unyielding spin iterations/sec | Bare Metal / TUI | 🟢 Production |
 
 ---
 
