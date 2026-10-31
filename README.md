@@ -48,10 +48,14 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 
 ## 🛠️ Upstream Open-Source Contributions
 
+* **[`socketcan-rs/socketcan-rs` — Pull Request #108](https://github.com/socketcan-rs/socketcan-rs/pull/108)**:
+  * Implemented first-class Linux kernel **ISO-TP (ISO 15765-2) transport protocol sockets (`CanIsoTpSocket`)** over `AF_CAN` / `SOCK_DGRAM` / `CAN_ISOTP`.
+  * Designed type-safe representations for `can_isotp_options`, `can_isotp_fc_options`, and `can_isotp_ll_options` (CAN FD link-layer sizing) matching kernel memory layout byte-for-byte.
+  * Implemented `std::io::Read` and `Write` for stream-oriented segmented PDU communication (up to 4095B in CAN 2.0, up to 4GB in CAN FD), plus full asynchronous runtime bindings for `tokio` (`AsyncRead`/`AsyncWrite`) and `smol`. Resolves upstream **Issue #70**.
 * **[`socketcan-rs/socketcan-rs` — Pull Request #107](https://github.com/socketcan-rs/socketcan-rs/pull/107)**:
   * Implemented SAE J1939-21 29-bit extended CAN identifier bitfield decomposition and Parameter Group Number (PGN) parsing in the official Rust Linux SocketCAN crate.
   * Properly distinguishes PDU1 (peer-to-peer / destination specific) from PDU2 (broadcast) formats across the 18-bit PGN address space.
-  * Passed all 98 unit and integration test suites cleanly without breaking existing public APIs, resolving upstream Issue #52.
+  * Passed all 98 unit and integration test suites cleanly without breaking existing public APIs, resolving upstream **Issue #52**.
 
 ---
 
