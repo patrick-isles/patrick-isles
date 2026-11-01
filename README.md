@@ -44,6 +44,7 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 | **[`rhel-idm-engine`](https://github.com/patrick-isles/rhel-idm-engine)** | Enterprise Identity Federation: Kerberos V5 (AES-256), OpenLDAP RFC 2307, SSSD | Local LDB dynamic caching for partition resilience, Host-Based Access Control (HBAC), SELinux MLS | PAM/NSS | 🟢 Reference |
 | **[`g14-linux-stability-guide`](https://github.com/patrick-isles/g14-linux-stability-guide)** | Hardware Silicon Post-Mortem: AMD Zen 3+ (Ryzen 9 6900HS / Radeon RX 6700S) | Root-cause analysis resolving C6 voltage droop, PCIe ASPM, and NVMe APST collisions (`fix-g14.sh`) | Kernel Sysfs | 🟢 Production |
 | **[`filibuster-engine`](https://github.com/patrick-isles/filibuster-engine)** | Bare-Metal x86_64, `mlock` Physical Partitioning, `_mm_clflush`, Real-Time `SCHED_FIFO` 99 | Repudiates OS scheduling, page swapping, and virtual memory; executes millions of unyielding spin iterations/sec | Bare Metal / TUI | 🟢 Production |
+| **[`fas-ignem`](https://github.com/patrick-isles/fas-ignem)** | Metaphysical x86_64 Hardware Transgression, `sigaction` `REG_RIP` mutation, `RDRAND`/`RDSEED` | Transubstantiates illegal opcodes (`UD2`) into dogma; unyielding *dépense* thermal immolation loop | Bare Metal / Altar | 🟢 Production |
 
 ---
 
