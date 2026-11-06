@@ -50,6 +50,10 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 
 ## 🛠️ Upstream Open-Source Contributions
 
+* **[`bytecodealliance/rustix` — Resolves Issue #1730](https://github.com/patrick-isles/rustix)**:
+  * Resolved fatal startup panics in `rustix::param::page_size()` occurring when binaries execute with Linux capabilities (`setcap`) or under secure execution (`AT_SECURE`) on enterprise Linux kernels < 6.4 (RHEL 9 / CentOS / Ubuntu LTS).
+  * Replaced unconditional panics in `init_auxv()` with an infallible fallback engine: architectural constants for fixed-page targets (x86_64, riscv, arm, s390x) and a sub-microsecond zero-allocation dynamic probe (`mmap`/`mprotect` alignment test) discovering variable page sizes on 64-bit ARM/PowerPC without procfs access.
+  * Hardened auxiliary record iteration against pointer invalidation in virtualization/emulation runtimes (QEMU/Rosetta; #1465), ensuring zero crashes in restricted container environments.
 * **[`vorner/signal-hook` (`signal-hook-registry`) — Resolves Tokio Issue #3520](https://github.com/patrick-isles/signal-hook)**:
   * Patched core Unix signal registration in `signal-hook-registry` to include `libc::SA_ONSTACK` by default in `Slot::new` across POSIX targets.
   * Resolves 5-year-old Tokio ecosystem bug ([`tokio-rs/tokio#3520`](https://github.com/tokio-rs/tokio/issues/3520)) where loading Rust shared libraries (`cdylib` / C-FFI, e.g. PAM/NSS modules) into Go runtimes (Docker `dockerd`, Kubernetes CRI, CockroachDB) causes fatal aborts: `fatal error: non-Go code set up signal handler without SA_ONSTACK flag`.
