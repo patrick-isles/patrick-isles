@@ -50,6 +50,10 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 
 ## 🛠️ Upstream Open-Source Contributions
 
+* **[`vorner/signal-hook` (`signal-hook-registry`) — Resolves Tokio Issue #3520](https://github.com/patrick-isles/signal-hook)**:
+  * Patched core Unix signal registration in `signal-hook-registry` to include `libc::SA_ONSTACK` by default in `Slot::new` across POSIX targets.
+  * Resolves 5-year-old Tokio ecosystem bug ([`tokio-rs/tokio#3520`](https://github.com/tokio-rs/tokio/issues/3520)) where loading Rust shared libraries (`cdylib` / C-FFI, e.g. PAM/NSS modules) into Go runtimes (Docker `dockerd`, Kubernetes CRI, CockroachDB) causes fatal aborts: `fatal error: non-Go code set up signal handler without SA_ONSTACK flag`.
+  * Exploited POSIX.1-2008 `sigaction(2)` specification guarantees where `SA_ONSTACK` is a transparent, zero-cost no-op when no alternate stack exists, while executing safely on `sigaltstack` when declared by foreign host runtimes. Authored Linux kernel `sigaltstack(2)` integration tests verifying stack-boundary execution.
 * **[`socketcan-rs/socketcan-rs` — Pull Request #108](https://github.com/socketcan-rs/socketcan-rs/pull/108)**:
   * Implemented first-class Linux kernel **ISO-TP (ISO 15765-2) transport protocol sockets (`CanIsoTpSocket`)** over `AF_CAN` / `SOCK_DGRAM` / `CAN_ISOTP`.
   * Designed type-safe representations for `can_isotp_options`, `can_isotp_fc_options`, and `can_isotp_ll_options` (CAN FD link-layer sizing) matching kernel memory layout byte-for-byte.
