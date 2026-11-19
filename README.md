@@ -51,6 +51,9 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 
 ## 🛠️ Upstream Open-Source Contributions
 
+* **[`hkopenai/hk-finance-mcp-server` — Pull Request #33](https://github.com/hkopenai/hk-finance-mcp-server/pull/33) & [Pull Request #34](https://github.com/hkopenai/hk-finance-mcp-server/pull/34)**:
+  * **PR #33 (Closes #25)**: Raised tool-level `fetch_json_data` HTTP timeouts from `10s` to `30s` across all 8 remaining HKMA open-data JSON MCP tools (`hibor_daily`, `neg_resident_mortgage`, `credit_card`, `atm_locator`, `bank_branch_locator`, `coin_cart`, `hkma_tender`, `fraudulent_bank_scams`), eliminating production timeouts in direct MCP clients and the parallel `get_economy_snapshot` aggregator during HKMA API latency spikes.
+  * **PR #34 (Closes #26)**: Applied `call_with_retry_on_empty` to the 4 remaining HKMA live integration test suites, removed broad `except Exception: self.fail(...)` handlers that masked `unittest.SkipTest`, and extended `_live_helpers.py` to detect and retry network-timeout error dicts (`{"error": "The request timed out..."}`) instead of treating truthy error dicts as valid payloads.
 * **[`crossbeam-rs/crossbeam` — Resolves Issue #398](https://github.com/patrick-isles/crossbeam)**:
   * Implemented lock-free single-block recycling for `SegQueue` in `crossbeam-queue`, eliminating heap allocation churn in steady-state producer-consumer queues.
   * Added `cached_block: CachePadded<AtomicPtr<Block<T>>>` on its own isolated 64-byte cache line, eliminating false sharing against `head` and `tail` atomic pointers.
