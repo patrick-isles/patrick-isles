@@ -39,6 +39,7 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 | **[`dirty-throttle-sentinel`](https://github.com/patrick-isles/dirty-throttle-sentinel)** | Linux VFS Page Cache, `/proc/vmstat` writeback queues, sysctl tunables | Preempts synchronous `TASK_UNINTERRUPTIBLE` (`D` state) process freezes before storage chokes; zero-alloc loop | **Port :9110** | 🟢 Live |
 | **[`kmem-drain-rs`](https://github.com/patrick-isles/kmem-drain-rs)** | System V `/proc/sysvipc/shm`, `shmctl(IPC_RMID)`, kernel `/proc/slabinfo` | Scans and safely reaps dead-PID unattached zombie memory; audits `SUnreclaim` kernel slab leaks | **Port :9109** | 🟢 Live |
 | **[`nvme-sentinel-rs`](https://github.com/patrick-isles/nvme-sentinel-rs)** | Raw `NVME_IOCTL_ADMIN_CMD`, 512-byte packed SMART log decoding, PCIe ASPM | Hardware endurance wear, composite temperature, and PCIe link width/speed degradation (`16.0 GT/s x4`) | **Port :9108** | 🟢 Live |
+| **[`hkex-omd-rs`](https://github.com/patrick-isles/hkex-omd-rs)** | HKEX OMD-C Binary Protocol, Multicast UDP, L1 Cache-Resident L3/MBP Book | **Sub-15ns order book updates / 0 heap allocations**; BBO, Microprice, OFI, liquidity sweep VWAP | Multicast / HFT | 🟢 Live |
 | **[`can-bus-rs`](https://github.com/patrick-isles/can-bus-rs)** | Linux SocketCAN (`AF_CAN`), SAE J1939-21 29-bit extended identifier decomposition | **0.95 ns decode latency / 1.05+ billion frames/sec** throughput; DM1 Diagnostic Trouble Code parser | **Port :9107** | 🟢 Live |
 | **[`telemetry-rs`](https://github.com/patrick-isles/telemetry-rs)** | Embedded UART (115200 8N1), CRC-16-CCITT, Digital Signal Processing (DSP) core | **50.79M pkts/sec / 19.69 ns latency**; computes True RMS ($V_{\text{RMS}}$), AC ripple, dynamic impedance | **Port :9106** | 🟢 Live |
 | **[`rhel-idm-engine`](https://github.com/patrick-isles/rhel-idm-engine)** | Enterprise Identity Federation: Kerberos V5 (AES-256), OpenLDAP RFC 2307, SSSD | Local LDB dynamic caching for partition resilience, Host-Based Access Control (HBAC), SELinux MLS | PAM/NSS | 🟢 Reference |
@@ -50,6 +51,11 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
 
 ## 🛠️ Upstream Open-Source Contributions
 
+* **[`crossbeam-rs/crossbeam` — Resolves Issue #398](https://github.com/patrick-isles/crossbeam)**:
+  * Implemented lock-free single-block recycling for `SegQueue` in `crossbeam-queue`, eliminating heap allocation churn in steady-state producer-consumer queues.
+  * Added `cached_block: CachePadded<AtomicPtr<Block<T>>>` on its own isolated 64-byte cache line, eliminating false sharing against `head` and `tail` atomic pointers.
+  * Engineered zero-allocation in-place state resetting clearing `(*this).next` and resetting all 31 `slot.state` atomics to 0, touching only 32 words without re-zeroing `T` memory payloads.
+  * Enforced Release-Acquire memory ordering preventing data races and ABA hazards. Verified with a custom `CountingAlloc` regression suite filtering exact 504-byte allocations: reduced heap allocations from 322 down to exactly 0 across 10,000 push/pop cycles.
 * **[`bytecodealliance/rustix` — Resolves Issue #1730](https://github.com/patrick-isles/rustix)**:
   * Resolved fatal startup panics in `rustix::param::page_size()` occurring when binaries execute with Linux capabilities (`setcap`) or under secure execution (`AT_SECURE`) on enterprise Linux kernels < 6.4 (RHEL 9 / CentOS / Ubuntu LTS).
   * Replaced unconditional panics in `init_auxv()` with an infallible fallback engine: architectural constants for fixed-page targets (x86_64, riscv, arm, s390x) and a sub-microsecond zero-allocation dynamic probe (`mmap`/`mprotect` alignment test) discovering variable page sizes on 64-bit ARM/PowerPC without procfs access.
@@ -66,6 +72,25 @@ A portfolio of deterministic, zero-allocation systems daemons designed to monito
   * Implemented SAE J1939-21 29-bit extended CAN identifier bitfield decomposition and Parameter Group Number (PGN) parsing in the official Rust Linux SocketCAN crate.
   * Properly distinguishes PDU1 (peer-to-peer / destination specific) from PDU2 (broadcast) formats across the 18-bit PGN address space.
   * Passed all 98 unit and integration test suites cleanly without breaking existing public APIs, resolving upstream **Issue #52**.
+
+---
+
+## 🧠 Developer Tooling & Agent Infrastructure
+
+* **[`repograph`](https://github.com/patrick-isles/repograph)**:
+  * AST-powered codebase dependency graph, PageRank centrality analyzer, Tarjan SCC cycle detector, and token-optimal context packer for AI coding agents.
+  * Cuts context window consumption by 60–85% via 2-hop personalized graph propagation and AST signature skeletonization. Includes drop-in stdio Model Context Protocol (MCP) server and interactive force-directed canvas.
+
+---
+
+## 🏛️ Generative Audiovisual Engines & Limit Systems
+
+* **[`excessus`](https://github.com/patrick-isles/excessus)** ([Live Experience](https://patrick-isles.github.io/excessus/)):
+  * Procedural limit-experience audio-visual engine modeling the collapse of bounded form into continuity. Built with Web Audio feedback delay network instability, foldback harmonic saturation, and chiaroscuro fragment shaders.
+* **[`nachtwerk`](https://github.com/patrick-isles/nachtwerk)** ([Live Experience](https://patrick-isles.github.io/nachtwerk/)):
+  * 6-voice zero-sample procedural Berlin darkwave / coldwave industrial groovebox and turbine-hall strobe console. Features sidechained concrete rumble convolution, 80s gated snare, and a 6×16 live sequencer.
+* **[`circumspice`](https://github.com/patrick-isles/circumspice)** ([Live Experience](https://patrick-isles.github.io/circumspice/)):
+  * Zero-dependency Web Audio instrument inspired by Deathspell Omega's *First Prayer*. Procedural vowel-formant monastic choir, inharmonic FM iron bell, and $E(5,13)$ vs $E(7,11)$ Björklund Euclidean polyrhythms with live Plomp-Levelt sensory roughness telemetry.
 
 ---
 
